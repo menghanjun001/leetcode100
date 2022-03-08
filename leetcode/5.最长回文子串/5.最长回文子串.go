@@ -37,10 +37,3 @@ func longestPalindrome(s string) string {
 	}
 	return s[left : right+1]
 }
-
-func max(x int, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
