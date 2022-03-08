@@ -1,47 +1,41 @@
 package leetcode
 
-//todo 有错误
-func longestPalindrome(s string) string {
-	var (
-		reverseS    = ""
-		res         [][]int
-		maxLen      = 0
-		maxEnd      = 0
-		left, right = 0, 0
-	)
-	//初始化二维数组
-	res = make([][]int, len(s))
-	for i, _ := range res {
-		res[i] = make([]int, len(s))
-	}
 
-	//1.参数校验 空字符串和长度为1的字符串就是本身
-	if s == "" || len(s) == 1 {
+func longestPalindrome(s string) string {
+	//边界条件
+	if len(s) == 0 || len(s) == 1 {
 		return s
 	}
-	//2.reverse 原字符串
-	reverseS = reverse(s)
-	//3.遍历源字符串和倒叙字符串的二维数组
-	for i := 0; i < len(s); i++ {
-		for j := 0; j < len(reverseS); j++ {
-			//4.如果相等则为1或加1，记录该位置,推测左右边界
-			if s[i] == reverseS[j] {
-				if i == 0 || j == 0 {
-					res[i][j] = 1
+	var (
+		left, right = 0, 0
+		flag        [][]bool
+	)
+	//0.初始化+终止条件
+	flag = make([][]bool, len(s))
+	for i, _ := range flag {
+		flag[i] = make([]bool, len(s))
+		flag[i][i]=true
+	}
+	//1.双层循环，移动右左指针
+	for j := 0; j < len(s); j++ {
+		for i := 0; i < j; i++ {
+			//2.转移条件：如果左指针的值=右指针的值
+			if s[i] == s[j] {
+				//- 左右间隔太小<2，即重合和相邻，则该子串是回文
+				if j-i < 2 {
+					flag[i][j] = true
 				} else {
-					res[i][j] = res[i-1][j-1] + 1
+					//- 间隔大，左右内含子串的状态即当前子串的状态
+					flag[i][j] = flag[i+1][j-1]
 				}
-				if res[i][j] > maxLen {
-					maxLen = res[i][j]
-					maxEnd = i
+				//3.如果是回文，并且长度更长，则更新左右标记位置
+				if flag[i][j] == true && j-i+1 >= right-left+1 {
+					left, right = i, j
 				}
 			}
 		}
 	}
-	//5.根据最终位置和记录最大长度确认左右边界
-	right = maxEnd
-	left = maxEnd - maxLen + 1 //从右往左数
-	return s[left:right+1]
+	return s[left : right+1]
 }
 
 func max(x int, y int) int {
@@ -49,14 +43,4 @@ func max(x int, y int) int {
 		return x
 	}
 	return y
-}
-
-func reverse(s string) string {
-	var (
-		slice = []rune(s)
-	)
-	for i, j := 0, len(slice)-1; i < j; i, j = i+1, j-1 {
-		slice[i], slice[j] = slice[j], slice[i]
-	}
-	return string(slice)
 }
