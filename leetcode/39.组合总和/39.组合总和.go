@@ -38,7 +38,7 @@ func dfs(candidates []int, target int, begin int, path []int, res *[][]int) {
 	for i := begin; i < len(candidates); i++ {
 		path = append(path, candidates[i])
 		dfs(candidates, target-candidates[i], i, path, res)
-		//2.状态重置
+		//2.状态重置,有重置才有回溯
 		path=path[:len(path)-1]
 	}
 }
