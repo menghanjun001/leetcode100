@@ -20,4 +20,6 @@ public void dfs(Node root, Set<Node> visited) {
 
 - 39.组合总和
 - 46.全排列
+- 78.子集
+- 79.单词搜索
 
