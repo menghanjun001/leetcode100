@@ -9,7 +9,7 @@ type TreeNode struct {
 //https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 //preorder pop出来的总是根节点，根据根节点对中序遍历做分割，区分左右子树进行递归
 func buildTree(preorder []int, inorder []int) *TreeNode {
-	return build(&preorder,inorder)
+	return build(&preorder, inorder)
 }
 
 func build(preorder *[]int, inorder []int) *TreeNode {
@@ -30,7 +30,7 @@ func build(preorder *[]int, inorder []int) *TreeNode {
 		Val: e,
 	}
 	root.Left = build(preorder, inorder[:idx])
-	root.Right= build(preorder, inorder[idx+1:])
+	root.Right = build(preorder, inorder[idx+1:])
 	return root
 }
 
