@@ -4,7 +4,7 @@ type ListNode struct {
 	Val  int
 	Next *ListNode
 }
-
+//双指针做法,记录cur和pre
 func reverseList(head *ListNode) *ListNode {
 	//0.border and initial
 	var (
